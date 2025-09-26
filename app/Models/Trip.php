@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Models;
@@ -13,22 +14,17 @@ class Trip extends Model
     protected $fillable = [
         'title',
         'description',
-        'status'
+        'status',
     ];
 
     /**
      * A trip belongs to its creator
-     * @return BelongsTo
      */
     public function owner(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-
-    /**
-     * @return HasMany
-     */
     public function suggestions(): HasMany
     {
         return $this->hasMany(Suggestion::class);
