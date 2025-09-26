@@ -24,7 +24,7 @@ class SuggestionRequest extends FormRequest
         return [
             //
             'description' => 'required',
-            'status' => 'required',
+            'status' => 'in:approved,rejected',
         ];
     }
 }
