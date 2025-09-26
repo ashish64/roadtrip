@@ -56,4 +56,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Trip::class, 'owner_id');
     }
+
+
+    public function suggestions(): HasMany
+    {
+        return $this->hasMany(Suggestion::class);
+    }
 }

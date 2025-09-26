@@ -5,6 +5,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Trip extends Model
 {
@@ -22,5 +23,14 @@ class Trip extends Model
     public function owner(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+
+    /**
+     * @return HasMany
+     */
+    public function suggestions(): HasMany
+    {
+        return $this->hasMany(Suggestion::class);
     }
 }

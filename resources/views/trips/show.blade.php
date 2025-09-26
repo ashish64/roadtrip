@@ -27,9 +27,37 @@
                             </p>
 
                         </div>
+                            <hr class="my-4">
+                        <div class="mt-4">
+                            <h3 class="font-semibold text-xl text-gray-800 leading-tight">
+                                Users invited to this trip
+                            </h3>
+                            <div>users goes here</div>
+                        </div>
 
+                        <div class="mt-4">
+                            <h3 class="font-semibold text-xl text-gray-800 leading-tight">
+                                Submit your idea here
+                            </h3>
+                            <form method="POST" action="{{ route('trips.suggestions.store', $trip) }}">
+                                @csrf
+                                <div>
+                                    <x-textarea-input id="description" class="block mt-1 w-full p-1"
+                                                      name="description">
+                                        {{ old('description') }}
+                                    </x-textarea-input>
+                                    <x-input-error :messages="$errors->get('description')" class="mt-2" />
+                                </div>
+
+                                <div class="mt-4 self-end">
+                                    <x-primary-button >
+                                        create
+                                    </x-primary-button>
+                                </div>
+                            </form>
                         </div>
                     </div>
+
             </div>
         </div>
 
