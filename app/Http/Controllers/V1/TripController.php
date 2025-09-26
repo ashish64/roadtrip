@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\TripRequest;
 use App\Models\Trip;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
 
 class TripController extends Controller
@@ -54,7 +55,8 @@ class TripController extends Controller
      */
     public function show(Trip $trip): View
     {
-        $data = $trip->load('suggestions');
+        $data = $trip->load(['suggestions', 'owner']);
+
         return view('trips.show', compact('data'));
     }
 
@@ -64,6 +66,7 @@ class TripController extends Controller
     public function edit(Trip $trip): View
     {
         //
+        Gate::authorize('update', $trip);
         return view('trips.edit', compact('trip'));
     }
 
@@ -73,6 +76,7 @@ class TripController extends Controller
     public function update(TripRequest $tripRequest, Trip $trip): RedirectResponse
     {
         //
+        Gate::authorize('update', $trip);
         $trip->update($tripRequest->validated());
 
         return redirect()->route('trips.show', ['trip' => $trip]);

@@ -11,8 +11,9 @@
                     <div class="p-6 text-gray-900 flex flex-col">
                         <div class="mt-4 flex justify-between">
                            <h3 class="font-semibold text-xl text-gray-800 leading-tight">
-                                {{ $data->title }}
+                                {{ $data->title }} {{ $data->owner->name }}
                            </h3>
+                            @can('update', $data)
                             <a href="{{ route('trips.edit', $data) }}"
                             class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent
                             rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700
@@ -20,6 +21,7 @@
                              focus:ring-offset-2 transition ease-in-out duration-150'">
                                 Edit
                             </a>
+                            @endcan
                         </div>
                         <div class="mt-4">
                             <p>
@@ -82,6 +84,7 @@
                                     <p class="grow">
                                         {{ $suggestion->description }}
                                     </p>
+                                    @can('update', $data)
                                     <div>
                                         <span>
                                             Approve
@@ -90,6 +93,7 @@
                                             Reject
                                         </span>
                                     </div>
+                                    @endcan
                                 </div>
                                  @endforeach
                             </div>

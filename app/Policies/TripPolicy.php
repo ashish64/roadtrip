@@ -38,7 +38,7 @@ class TripPolicy
      */
     public function update(User $user, Trip $trip): bool
     {
-        return false;
+        return $user->id === $trip->owner_id;
     }
 
     /**
