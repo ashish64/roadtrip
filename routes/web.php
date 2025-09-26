@@ -19,7 +19,7 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [TripController::class, 'index'])->name('dashboard');
-    Route::resource('trips', TripController::class)->only(['create', 'store', 'show']);
+    Route::resource('trips', TripController::class)->except(['destroy']);
 });
 
 require __DIR__.'/auth.php';

@@ -60,17 +60,20 @@ class TripController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Trip $trip): View
     {
         //
+        return view('trips.edit', compact('trip'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(TripRequest $tripRequest, Trip $trip): RedirectResponse
     {
         //
+        $trip->update($tripRequest->validated());
+        return redirect()->route('trips.show', ['trip' => $trip]);
     }
 
     /**
