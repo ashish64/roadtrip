@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -47,16 +49,13 @@ class User extends Authenticatable
         ];
     }
 
-
     /**
      * Creator can own many trips
-     * @return HasMany
      */
-    public function owns():HasMany
+    public function owns(): HasMany
     {
         return $this->hasMany(Trip::class, 'owner_id');
     }
-
 
     public function suggestions(): HasMany
     {

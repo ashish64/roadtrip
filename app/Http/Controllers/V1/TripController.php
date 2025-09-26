@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Http\Controllers\V1;
@@ -7,7 +8,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\TripRequest;
 use App\Models\Trip;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class TripController extends Controller
@@ -15,13 +15,12 @@ class TripController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): View
     {
         // trips i own
         $trips = [
-            'owns' => auth()->user()->owns
+            'owns' => auth()->user()->owns,
         ];
-
 
         return view('trips.index', compact('trips'));
 
@@ -45,7 +44,8 @@ class TripController extends Controller
     {
         //
         $trip = auth()->user()->owns()->create($tripRequest->validated());
-        return redirect()->route('trips.show', ['trip' => $trip] );
+
+        return redirect()->route('trips.show', ['trip' => $trip]);
 
     }
 
@@ -73,14 +73,7 @@ class TripController extends Controller
     {
         //
         $trip->update($tripRequest->validated());
-        return redirect()->route('trips.show', ['trip' => $trip]);
-    }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return redirect()->route('trips.show', ['trip' => $trip]);
     }
 }

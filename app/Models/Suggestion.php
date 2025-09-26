@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -11,18 +13,11 @@ class Suggestion extends Model
 
     protected $fillable = ['description', 'status', 'user_id'];
 
-
-    /**
-     * @return BelongsTo
-     */
     public function User(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    /**
-     * @return BelongsTo
-     */
     public function Trip(): BelongsTo
     {
         return $this->belongsTo(Trip::class);
