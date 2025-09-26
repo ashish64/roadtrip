@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('suggestions', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained();
+            $table->foreignId('trip_id')->constrained();
+            $table->text('description');
+            $table->enum('status', ['approved', 'rejected'])->default('approved');
             $table->timestamps();
         });
     }
