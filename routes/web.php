@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\V1\SuggestionController;
 use App\Http\Controllers\V1\TripController;
 use Illuminate\Support\Facades\Route;
 
@@ -20,7 +21,7 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [TripController::class, 'index'])->name('dashboard');
     Route::resource('trips', TripController::class)->except(['destroy']);
-    Route::resource();
+    Route::resource('trips.suggestions', SuggestionController::class)->only(['store']);
 });
 
 require __DIR__.'/auth.php';
