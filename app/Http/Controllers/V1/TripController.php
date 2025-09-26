@@ -18,11 +18,14 @@ class TripController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): View
+    public function index()
     {
-        // trips i own
+
+
+        $user = auth()->user()->load(['owns', 'trips']);
         $trips = [
-            'owns' => auth()->user()->owns,
+            'owns' => $user->owns,
+            'invited' => $user->trips
         ];
 
         return view('trips.index', compact('trips'));
