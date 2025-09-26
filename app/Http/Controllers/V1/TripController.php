@@ -54,7 +54,8 @@ class TripController extends Controller
      */
     public function show(Trip $trip): View
     {
-        return view('trips.show', compact('trip'));
+        $data = $trip->load('suggestions');
+        return view('trips.show', compact('data'));
     }
 
     /**
