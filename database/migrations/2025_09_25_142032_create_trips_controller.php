@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('trip', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-
             $table->string('title');
             $table->text('description');
             $table->enum('status', ['active', 'completed'])->default('active');
