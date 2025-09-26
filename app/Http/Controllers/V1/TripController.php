@@ -53,10 +53,9 @@ class TripController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Trip $trip)
+    public function show(Trip $trip): View
     {
         $data = $trip->load([
-            'owner',
             'suggestions' => function ($query) {
                 $query->withCount([
                     'vote as up_votes_count' => function ($q) {
@@ -64,9 +63,9 @@ class TripController extends Controller
                     },
                     'vote as down_votes_count' => function ($q) {
                         $q->where('type', 'down');
-                    }
+                    },
                 ]);
-            }
+            },
         ]);
 
         return view('trips.show', compact('data'));
@@ -79,6 +78,7 @@ class TripController extends Controller
     {
         //
         Gate::authorize('update', $trip);
+
         return view('trips.edit', compact('trip'));
     }
 

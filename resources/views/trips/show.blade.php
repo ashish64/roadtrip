@@ -11,7 +11,7 @@
                     <div class="p-6 text-gray-900 flex flex-col">
                         <div class="mt-4 flex justify-between">
                            <h3 class="font-semibold text-xl text-gray-800 leading-tight">
-                                {{ $data->title }} {{ $data->owner->name }}
+                                {{ $data->title }}
                            </h3>
                             @can('update', $data)
                             <a href="{{ route('trips.edit', $data) }}"

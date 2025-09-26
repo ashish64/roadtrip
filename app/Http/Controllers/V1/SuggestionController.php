@@ -28,7 +28,12 @@ class SuggestionController extends Controller
         return redirect()->route('trips.show', ['trip' => $trip]);
     }
 
-    public function vote(Suggestion $suggestion, Request $request)
+    /**
+     * @param Suggestion $suggestion
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function vote(Suggestion $suggestion, Request $request): RedirectResponse
     {
         $validated = $request->validate([
             'type' => 'required|in:up,down',
@@ -37,7 +42,7 @@ class SuggestionController extends Controller
         $suggestion->vote()->updateOrCreate([
             'user_id' => auth()->id(),
             'suggestion_id' => $suggestion->id,
-        ],$validated);
+        ], $validated);
 
         return redirect()->back();
     }

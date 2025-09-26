@@ -10,7 +10,6 @@ class Vote extends Model
     //
     protected $fillable = ['type', 'user_id'];
 
-
     public function User(): BelongsTo
     {
         return $this->belongsTo(User::class);
