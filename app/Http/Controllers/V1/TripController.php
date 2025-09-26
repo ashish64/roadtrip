@@ -53,9 +53,21 @@ class TripController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Trip $trip): View
+    public function show(Trip $trip)
     {
-        $data = $trip->load(['suggestions', 'owner']);
+        $data = $trip->load([
+            'owner',
+            'suggestions' => function ($query) {
+                $query->withCount([
+                    'vote as up_votes_count' => function ($q) {
+                        $q->where('type', 'up');
+                    },
+                    'vote as down_votes_count' => function ($q) {
+                        $q->where('type', 'down');
+                    }
+                ]);
+            }
+        ]);
 
         return view('trips.show', compact('data'));
     }

@@ -74,12 +74,13 @@
                                               <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 7.5-7.5 7.5 7.5" />
                                             </svg>
                                         </a>
+                                        <span>{{ $suggestion->up_votes_count }}</span>
                                         <a href="{{ route('suggestions.vote', $suggestion) }}?type=down">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                               <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 5.25 7.5 7.5 7.5-7.5m-15 6 7.5 7.5 7.5-7.5" />
                                             </svg>
                                         </a>
-                                        <span>total votes</span>
+                                        <span>{{ $suggestion->down_votes_count }}</span>
                                     </div>
                                     <p class="grow">
                                         {{ $suggestion->description }}
