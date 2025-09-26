@@ -9,13 +9,13 @@ class Suggestion extends Model
 {
     //
 
-    protected $fillable = ['description', 'status'];
+    protected $fillable = ['description', 'status', 'user_id'];
 
 
     /**
      * @return BelongsTo
      */
-    public function user(): BelongsTo
+    public function User(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }

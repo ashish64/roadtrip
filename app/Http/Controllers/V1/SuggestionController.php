@@ -16,8 +16,12 @@ class SuggestionController extends Controller
      */
     public function store(Trip $trip, SuggestionRequest $suggestionRequest)
     {
-        //
-        $trip->suggestions()->create($suggestionRequest->validated());
+        $suggestion = [
+            'description' =>  $suggestionRequest['description'],
+            'user_id' => auth()->id(),
+        ];
+
+        $trip->suggestions()->create($suggestion);
         return redirect()->route('trips.show', ['trip' => $trip]);
     }
 
