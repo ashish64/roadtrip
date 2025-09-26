@@ -35,19 +35,32 @@
 
                         </div>
                         <div class="mt-4 flex gap-x-4">
-                            <x-input-label for="description" value="Active" />
-                            <x-text-input id="status" class="block mt-1"
+                            <x-input-label for="active" value="Active" />
+                            <x-text-input id="active" class="block mt-1"
                                           value="active"
                                           type="radio"
                                           name="status" />
-                            <x-input-label for="description" value="Completed" />
-                            <x-text-input id="status" class="block mt-1 "
+                            <x-input-label for="completed" value="Completed" />
+                            <x-text-input id="completed" class="block mt-1 "
                                           value="completed"
                                           type="radio"
                                           name="status" />
 
                         </div>
-                        <div class="mt-4">user list here</div>
+                        <div class="mt-4 grid grid-cols-4">
+                            @foreach($users as $user)
+                            <div class="flex gap-x-2">
+                                <x-input-label for="user-{{ $user->id }}" value="{{ $user->name }}" />
+                                <input id="user-{{ $user->id }}" class="block mt-1"
+                                              type="checkbox"
+                                              name="users[]"
+                                              value="{{ $user->id }}"
+                                        @checked(is_array(old('users')) && in_array($user->id, old('users')))
+                                />
+
+                            </div>
+                            @endforeach
+                        </div>
                         <div class="mt-4 self-end">
                             <x-primary-button >
                                 create

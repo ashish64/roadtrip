@@ -7,7 +7,9 @@ namespace App\Http\Controllers\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TripRequest;
 use App\Models\Trip;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
 
@@ -16,11 +18,14 @@ class TripController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): View
+    public function index()
     {
-        // trips i own
+
+
+        $user = auth()->user()->load(['owns', 'trips']);
         $trips = [
-            'owns' => auth()->user()->owns,
+            'owns' => $user->owns,
+            'invited' => $user->trips
         ];
 
         return view('trips.index', compact('trips'));
@@ -35,7 +40,10 @@ class TripController extends Controller
     public function create(): View
     {
         //
-        return view('trips.create');
+        $users = Cache::remember('listableUsers',3600 , function () {
+            return User::get(['id','name']);
+        });
+        return view('trips.create', compact('users'));
     }
 
     /**
@@ -45,6 +53,7 @@ class TripController extends Controller
     {
         //
         $trip = auth()->user()->owns()->create($tripRequest->validated());
+        $trip->users()->attach($tripRequest->users);
 
         return redirect()->route('trips.show', ['trip' => $trip]);
 
@@ -78,8 +87,12 @@ class TripController extends Controller
     {
         //
         Gate::authorize('update', $trip);
+        $trip = $trip->load('users:id,name');
+        $users = Cache::remember('listableUsers',3600 , function () {
+            return User::get(['id','name']);
+        });
 
-        return view('trips.edit', compact('trip'));
+        return view('trips.edit', compact('trip', 'users'));
     }
 
     /**
@@ -90,6 +103,7 @@ class TripController extends Controller
         //
         Gate::authorize('update', $trip);
         $trip->update($tripRequest->validated());
+        $trip->users()->attach($tripRequest->users);
 
         return redirect()->route('trips.show', ['trip' => $trip]);
     }
