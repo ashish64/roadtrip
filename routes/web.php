@@ -19,6 +19,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [TripController::class, 'index'])->name('dashboard');
     Route::resource('trips', TripController::class)->except(['destroy']);
     Route::resource('trips.suggestions', SuggestionController::class)->only(['store']);
+    Route::get('/suggestions/{suggestion}/vote', [SuggestionController::class, 'vote'])->name('suggestions.vote');
 });
 
 require __DIR__.'/auth.php';

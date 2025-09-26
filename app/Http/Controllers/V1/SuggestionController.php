@@ -6,8 +6,10 @@ namespace App\Http\Controllers\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SuggestionRequest;
+use App\Models\Suggestion;
 use App\Models\Trip;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 
 class SuggestionController extends Controller
 {
@@ -24,5 +26,24 @@ class SuggestionController extends Controller
         $trip->suggestions()->create($suggestion);
 
         return redirect()->route('trips.show', ['trip' => $trip]);
+    }
+
+    /**
+     * @param Suggestion $suggestion
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function vote(Suggestion $suggestion, Request $request): RedirectResponse
+    {
+        $validated = $request->validate([
+            'type' => 'required|in:up,down',
+        ]);
+
+        $suggestion->vote()->updateOrCreate([
+            'user_id' => auth()->id(),
+            'suggestion_id' => $suggestion->id,
+        ], $validated);
+
+        return redirect()->back();
     }
 }
