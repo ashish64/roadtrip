@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('votes', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
-            $table->foreignId('trip_id')->constrained();
-            $table->enum('status', ['up', 'down']);
+            $table->foreignId('suggestion_id')->constrained();
+            $table->enum('type', ['up', 'down']);
             $table->timestamps();
         });
     }

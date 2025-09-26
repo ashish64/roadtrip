@@ -68,17 +68,17 @@
                                 @foreach($data->suggestions as $suggestion)
                                 <div class="p-2 border-gray-500 border rounded hover:bg-gray-100 flex gap-2">
                                     <div class="flex gap-x-2">
-                                        <span>
+                                        <a href="{{ route('suggestions.vote', $suggestion) }}?type=up">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                               <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 18.75 7.5-7.5 7.5 7.5" />
                                               <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 7.5-7.5 7.5 7.5" />
                                             </svg>
-                                        </span>
-                                        <span>
+                                        </a>
+                                        <a href="{{ route('suggestions.vote', $suggestion) }}?type=down">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                               <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 5.25 7.5 7.5 7.5-7.5m-15 6 7.5 7.5 7.5-7.5" />
                                             </svg>
-                                        </span>
+                                        </a>
                                         <span>total votes</span>
                                     </div>
                                     <p class="grow">

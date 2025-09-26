@@ -6,6 +6,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Suggestion extends Model
 {
@@ -21,5 +22,10 @@ class Suggestion extends Model
     public function Trip(): BelongsTo
     {
         return $this->belongsTo(Trip::class);
+    }
+
+    public function Vote(): HasMany
+    {
+        return $this->hasMany(Vote::class);
     }
 }
