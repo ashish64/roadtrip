@@ -50,17 +50,33 @@
                                    name="status"
                                 {{ old('status') == 'completed' ? 'checked' : ''}}
                             >
-</div>
-<div class="mt-4">user list here</div>
-<div class="mt-4 self-end">
-<x-primary-button >
-create
-</x-primary-button>
-</div>
-</div>
-</form>
-</div>
-</div>
+                        </div>
+                        <div class="mt-4 grid grid-cols-4">
+                            @foreach($users as $user)
+                                <div class="flex gap-x-2">
+                                    <x-input-label for="user-{{ $user->id }}" value="{{ $user->name }}" />
+                                    <input id="user-{{ $user->id }}" class="block mt-1"
+                                                  type="checkbox"
+                                                  name="users[]"
+                                                  value="{{ $user->id }}"
+                                                  @checked(
+                                                   $trip->users->contains('id',$user->id)
+                                                   || (is_array(old('user')) && in_array($user->id, old('user')))
+                                                   )
+                                    />
+
+                                </div>
+                            @endforeach
+                        </div>
+                    <div class="mt-4 self-end">
+                        <x-primary-button >
+                        Update
+                        </x-primary-button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 
 </div>
 </x-app-layout>

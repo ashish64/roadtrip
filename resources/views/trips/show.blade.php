@@ -34,7 +34,13 @@
                             <h3 class="font-semibold text-xl text-gray-800 leading-tight">
                                 Users invited to this trip
                             </h3>
-                            <div>users goes here</div>
+                            <ul class="flex mt-4 gap-5 flex-wrap">
+                                @foreach($data->users as $user)
+                                    <li class="rounded-full bg-gray-500 px-4 py-1 text-sm font-semibold text-white">
+                                        {{ $user->name }}
+                                    </li>
+                                @endforeach
+                            </ul>
                         </div>
 
                         <div class="mt-4">
@@ -53,7 +59,7 @@
 
                                 <div class="mt-4 self-end">
                                     <x-primary-button >
-                                        create
+                                        Submit your idea
                                     </x-primary-button>
                                 </div>
                             </form>
