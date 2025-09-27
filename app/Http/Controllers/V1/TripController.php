@@ -30,7 +30,9 @@ class TripController extends Controller
 
         return view('trips.index', compact('trips'));
 
-        // trips im associated with
+
+
+        
 
     }
 
