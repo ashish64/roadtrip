@@ -41,4 +41,15 @@ class SuggestionController extends Controller
 
         return redirect()->back();
     }
+
+    public function status(Suggestion $suggestion, Request $request): RedirectResponse
+    {
+        $validated = $request->validate([
+            'type' => 'required|in:approved,rejected',
+            ]);
+
+        $suggestion->update(['status' => $validated['type']]);
+
+        return redirect()->back();
+    }
 }
