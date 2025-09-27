@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\SuggestionRequest;
 use App\Models\Suggestion;
 use App\Models\Trip;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -16,6 +17,8 @@ class SuggestionController extends Controller
 {
     /**
      * Store a newly created resource in storage.
+     *
+     * @throws AuthorizationException
      */
     public function store(Trip $trip, SuggestionRequest $suggestionRequest): RedirectResponse
     {
@@ -30,6 +33,11 @@ class SuggestionController extends Controller
         return redirect()->route('trips.show', ['trip' => $trip]);
     }
 
+    /**
+     * This can and should be moved to its own controller
+     *
+     * @throws AuthorizationException
+     */
     public function vote(Suggestion $suggestion, Request $request): RedirectResponse
     {
         Gate::authorize('view', $suggestion->trip);
@@ -45,7 +53,10 @@ class SuggestionController extends Controller
         return redirect()->back();
     }
 
-    public function status(Suggestion $suggestion, Request $request)
+    /**
+     * @throws AuthorizationException
+     */
+    public function status(Suggestion $suggestion, Request $request): RedirectResponse
     {
         Gate::authorize('update', $suggestion->trip);
         $validated = $request->validate([
