@@ -22,6 +22,17 @@ class TripPolicy
      */
     public function view(User $user, Trip $trip): bool
     {
+        // if i own the trip, im allowed
+        if ($user->id === $trip->owner_id) {
+            return true;
+        }
+
+        // if im part of the trip, i should also be allowed
+        if ($trip->users->contains(auth()->id())) {
+            return true;
+        }
+
+        // else i have no business here
         return false;
     }
 

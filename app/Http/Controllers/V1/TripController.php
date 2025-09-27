@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\TripRequest;
 use App\Models\Trip;
 use App\Models\User;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Gate;
@@ -58,9 +59,12 @@ class TripController extends Controller
 
     /**
      * Display the specified resource.
+     *
+     * @throws AuthorizationException
      */
     public function show(Trip $trip): View
     {
+        Gate::authorize('view', $trip);
         $data = $trip->load([
             'suggestions' => function ($query) {
                 $query->withCount([
@@ -72,6 +76,7 @@ class TripController extends Controller
                     },
                 ]);
             },
+            'users:name',
         ]);
 
         return view('trips.show', compact('data'));
@@ -79,6 +84,8 @@ class TripController extends Controller
 
     /**
      * Show the form for editing the specified resource.
+     *
+     * @throws AuthorizationException
      */
     public function edit(Trip $trip): View
     {
@@ -94,6 +101,8 @@ class TripController extends Controller
 
     /**
      * Update the specified resource in storage.
+     *
+     * @throws AuthorizationException
      */
     public function update(TripRequest $tripRequest, Trip $trip): RedirectResponse
     {
