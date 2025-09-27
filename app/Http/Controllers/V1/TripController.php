@@ -72,6 +72,7 @@ class TripController extends Controller
                     },
                 ]);
             },
+            'users:name'
         ]);
 
         return view('trips.show', compact('data'));
