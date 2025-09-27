@@ -21,18 +21,13 @@ class TripController extends Controller
     public function index()
     {
 
-
         $user = auth()->user()->load(['owns', 'trips']);
         $trips = [
             'owns' => $user->owns,
-            'invited' => $user->trips
+            'invited' => $user->trips,
         ];
 
         return view('trips.index', compact('trips'));
-
-
-
-        
 
     }
 
@@ -42,9 +37,10 @@ class TripController extends Controller
     public function create(): View
     {
         //
-        $users = Cache::remember('listableUsers',3600 , function () {
-            return User::get(['id','name']);
+        $users = Cache::remember('listableUsers', 3600, function () {
+            return User::get(['id', 'name']);
         });
+
         return view('trips.create', compact('users'));
     }
 
@@ -90,8 +86,8 @@ class TripController extends Controller
         //
         Gate::authorize('update', $trip);
         $trip = $trip->load('users:id,name');
-        $users = Cache::remember('listableUsers',3600 , function () {
-            return User::get(['id','name']);
+        $users = Cache::remember('listableUsers', 3600, function () {
+            return User::get(['id', 'name']);
         });
 
         return view('trips.edit', compact('trip', 'users'));

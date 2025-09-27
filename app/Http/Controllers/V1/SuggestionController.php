@@ -28,11 +28,6 @@ class SuggestionController extends Controller
         return redirect()->route('trips.show', ['trip' => $trip]);
     }
 
-    /**
-     * @param Suggestion $suggestion
-     * @param Request $request
-     * @return RedirectResponse
-     */
     public function vote(Suggestion $suggestion, Request $request): RedirectResponse
     {
         $validated = $request->validate([

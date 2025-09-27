@@ -68,9 +68,6 @@ class User extends Authenticatable
         return $this->hasMany(Vote::class);
     }
 
-    /**
-     * @return BelongsToMany
-     */
     public function trips(): BelongsToMany
     {
         return $this->belongsToMany(Trip::class);
