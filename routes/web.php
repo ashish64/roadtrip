@@ -20,6 +20,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('trips', TripController::class)->except(['destroy']);
     Route::resource('trips.suggestions', SuggestionController::class)->only(['store']);
     Route::get('/suggestions/{suggestion}/vote', [SuggestionController::class, 'vote'])->name('suggestions.vote');
+    Route::get('/suggestions/{suggestion}/status', [SuggestionController::class, 'status'])->name('suggestions.status');
 });
 
 require __DIR__.'/auth.php';

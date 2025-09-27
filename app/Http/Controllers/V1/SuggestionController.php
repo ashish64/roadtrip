@@ -10,6 +10,7 @@ use App\Models\Suggestion;
 use App\Models\Trip;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class SuggestionController extends Controller
 {
@@ -18,6 +19,7 @@ class SuggestionController extends Controller
      */
     public function store(Trip $trip, SuggestionRequest $suggestionRequest): RedirectResponse
     {
+        Gate::authorize('view', $trip);
         $suggestion = [
             'description' => $suggestionRequest['description'],
             'user_id' => auth()->id(),
@@ -30,6 +32,7 @@ class SuggestionController extends Controller
 
     public function vote(Suggestion $suggestion, Request $request): RedirectResponse
     {
+        Gate::authorize('view', $suggestion->trip);
         $validated = $request->validate([
             'type' => 'required|in:up,down',
         ]);
@@ -42,8 +45,9 @@ class SuggestionController extends Controller
         return redirect()->back();
     }
 
-    public function status(Suggestion $suggestion, Request $request): RedirectResponse
+    public function status(Suggestion $suggestion, Request $request)
     {
+        Gate::authorize('update', $suggestion->trip);
         $validated = $request->validate([
             'type' => 'required|in:approved,rejected',
         ]);

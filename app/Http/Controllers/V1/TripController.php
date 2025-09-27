@@ -61,6 +61,7 @@ class TripController extends Controller
      */
     public function show(Trip $trip): View
     {
+        Gate::authorize('view', $trip);
         $data = $trip->load([
             'suggestions' => function ($query) {
                 $query->withCount([
