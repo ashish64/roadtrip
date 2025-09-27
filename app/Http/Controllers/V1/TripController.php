@@ -18,19 +18,16 @@ class TripController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): View
     {
-
 
         $user = auth()->user()->load(['owns', 'trips']);
         $trips = [
             'owns' => $user->owns,
-            'invited' => $user->trips
+            'invited' => $user->trips,
         ];
 
         return view('trips.index', compact('trips'));
-
-        // trips im associated with
 
     }
 
@@ -40,9 +37,10 @@ class TripController extends Controller
     public function create(): View
     {
         //
-        $users = Cache::remember('listableUsers',3600 , function () {
-            return User::get(['id','name']);
+        $users = Cache::remember('listableUsers', 3600, function () {
+            return User::get(['id', 'name']);
         });
+
         return view('trips.create', compact('users'));
     }
 
@@ -51,7 +49,6 @@ class TripController extends Controller
      */
     public function store(TripRequest $tripRequest): RedirectResponse
     {
-        //
         $trip = auth()->user()->owns()->create($tripRequest->validated());
         $trip->users()->attach($tripRequest->users);
 
@@ -88,8 +85,8 @@ class TripController extends Controller
         //
         Gate::authorize('update', $trip);
         $trip = $trip->load('users:id,name');
-        $users = Cache::remember('listableUsers',3600 , function () {
-            return User::get(['id','name']);
+        $users = Cache::remember('listableUsers', 3600, function () {
+            return User::get(['id', 'name']);
         });
 
         return view('trips.edit', compact('trip', 'users'));

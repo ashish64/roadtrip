@@ -10,11 +10,17 @@ class Vote extends Model
     //
     protected $fillable = ['type', 'user_id'];
 
+    /**
+     * @return BelongsTo<User,$this>
+     */
     public function User(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
+    /**
+     * @return BelongsTo<Suggestion,$this>
+     */
     public function Suggestion(): BelongsTo
     {
         return $this->belongsTo(Suggestion::class);

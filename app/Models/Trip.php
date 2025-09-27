@@ -20,6 +20,8 @@ class Trip extends Model
 
     /**
      * A trip belongs to its creator
+     *
+     * @return BelongsTo<User, $this>
      */
     public function owner(): BelongsTo
     {
@@ -27,7 +29,9 @@ class Trip extends Model
     }
 
     /**
-     * @return HasMany
+     * A trip belongs to its creator
+     *
+     * @return HasMany<Suggestion, $this>
      */
     public function suggestions(): HasMany
     {
@@ -35,7 +39,7 @@ class Trip extends Model
     }
 
     /**
-     * @return BelongsToMany
+     * @return BelongsToMany<User, $this>
      */
     public function users(): BelongsToMany
     {
