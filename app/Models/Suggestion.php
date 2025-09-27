@@ -14,16 +14,25 @@ class Suggestion extends Model
 
     protected $fillable = ['description', 'status', 'user_id'];
 
+    /**
+     * @return BelongsTo<User, $this>
+     */
     public function User(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
+    /**
+     * @return BelongsTo<Trip, $this>
+     */
     public function Trip(): BelongsTo
     {
         return $this->belongsTo(Trip::class);
     }
 
+    /**
+     * @return HasMany<Vote, $this>
+     */
     public function Vote(): HasMany
     {
         return $this->hasMany(Vote::class);

@@ -18,7 +18,7 @@ class TripController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): View
     {
 
         $user = auth()->user()->load(['owns', 'trips']);
@@ -49,7 +49,6 @@ class TripController extends Controller
      */
     public function store(TripRequest $tripRequest): RedirectResponse
     {
-        //
         $trip = auth()->user()->owns()->create($tripRequest->validated());
         $trip->users()->attach($tripRequest->users);
 

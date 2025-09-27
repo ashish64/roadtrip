@@ -20,17 +20,27 @@ class Trip extends Model
 
     /**
      * A trip belongs to its creator
+     *
+     * @return BelongsTo<User, $this>
      */
     public function owner(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
+    /**
+     * A trip belongs to its creator
+     *
+     * @return HasMany<Suggestion, $this>
+     */
     public function suggestions(): HasMany
     {
         return $this->hasMany(Suggestion::class);
     }
 
+    /**
+     * @return BelongsToMany<User, $this>
+     */
     public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class);

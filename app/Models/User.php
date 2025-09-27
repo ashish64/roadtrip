@@ -52,22 +52,33 @@ class User extends Authenticatable
 
     /**
      * Creator can own many trips
+     *
+     * @return HasMany<Trip, $this>
      */
     public function owns(): HasMany
     {
         return $this->hasMany(Trip::class, 'owner_id');
     }
 
+    /**
+     * @return HasMany<Suggestion, $this>
+     */
     public function suggestions(): HasMany
     {
         return $this->hasMany(Suggestion::class);
     }
 
+    /**
+     * @return HasMany<Vote, $this>
+     */
     public function votes(): HasMany
     {
         return $this->hasMany(Vote::class);
     }
 
+    /**
+     * @return BelongsToMany<Trip, $this>
+     */
     public function trips(): BelongsToMany
     {
         return $this->belongsToMany(Trip::class);
