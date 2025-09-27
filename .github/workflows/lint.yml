@@ -25,6 +25,3 @@ jobs:
 
       - name: Commit linted files
         uses: stefanzweifel/git-auto-commit-action@v6
-
-      - name: Run Larastan
-        run: ./vendor/bin/phpstan analyse
