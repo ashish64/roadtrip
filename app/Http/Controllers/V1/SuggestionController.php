@@ -46,7 +46,7 @@ class SuggestionController extends Controller
     {
         $validated = $request->validate([
             'type' => 'required|in:approved,rejected',
-            ]);
+        ]);
 
         $suggestion->update(['status' => $validated['type']]);
 
