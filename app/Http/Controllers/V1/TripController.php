@@ -8,7 +8,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\TripRequest;
 use App\Models\Trip;
 use App\Models\User;
-use Illuminate\Auth\Access\AuthorizationException;
+use App\Repositories\Contracts\TripRepositoryContract;
+use App\Repositories\TripRepository;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Gate;
@@ -17,16 +19,18 @@ use Illuminate\View\View;
 class TripController extends Controller
 {
     /**
+     * @param  TripRepository  $trip
+     */
+    public function __construct(
+        protected TripRepositoryContract $trip
+    ) {}
+
+    /**
      * Display a listing of the resource.
      */
     public function index(): View
     {
-
-        $user = auth()->user()->load(['owns', 'trips']);
-        $trips = [
-            'owns' => $user->owns,
-            'invited' => $user->trips,
-        ];
+        $trips = $this->trip->findAll();
 
         return view('trips.index', compact('trips'));
 
@@ -38,9 +42,7 @@ class TripController extends Controller
     public function create(): View
     {
         //
-        $users = Cache::remember('listableUsers', 3600, function () {
-            return User::get(['id', 'name']);
-        });
+        $users = $this->getUsers();
 
         return view('trips.create', compact('users'));
     }
@@ -50,8 +52,8 @@ class TripController extends Controller
      */
     public function store(TripRequest $tripRequest): RedirectResponse
     {
-        $trip = auth()->user()->owns()->create($tripRequest->validated());
-        $trip->users()->attach($tripRequest->users);
+
+        $trip = $this->trip->create($tripRequest->all());
 
         return redirect()->route('trips.show', ['trip' => $trip]);
 
@@ -59,58 +61,50 @@ class TripController extends Controller
 
     /**
      * Display the specified resource.
-     *
-     * @throws AuthorizationException
      */
     public function show(Trip $trip): View
     {
         Gate::authorize('view', $trip);
-        $data = $trip->load([
-            'suggestions' => function ($query) {
-                $query->withCount([
-                    'vote as up_votes_count' => function ($q) {
-                        $q->where('type', 'up');
-                    },
-                    'vote as down_votes_count' => function ($q) {
-                        $q->where('type', 'down');
-                    },
-                ]);
-            },
-            'users:name',
-        ]);
+
+        $data = $this->trip->findWithSuggestions($trip);
 
         return view('trips.show', compact('data'));
     }
 
     /**
      * Show the form for editing the specified resource.
-     *
-     * @throws AuthorizationException
      */
     public function edit(Trip $trip): View
     {
         //
         Gate::authorize('update', $trip);
-        $trip = $trip->load('users:id,name');
-        $users = Cache::remember('listableUsers', 3600, function () {
-            return User::get(['id', 'name']);
-        });
+        $data = $this->trip->find($trip, 'users:id,name');
+        $users = $this->getUsers();
 
-        return view('trips.edit', compact('trip', 'users'));
+        return view('trips.edit', compact('data', 'users'));
     }
 
     /**
      * Update the specified resource in storage.
-     *
-     * @throws AuthorizationException
      */
     public function update(TripRequest $tripRequest, Trip $trip): RedirectResponse
     {
         //
         Gate::authorize('update', $trip);
-        $trip->update($tripRequest->validated());
-        $trip->users()->attach($tripRequest->users);
+        $this->trip->updateTrip($trip, $tripRequest->all());
 
         return redirect()->route('trips.show', ['trip' => $trip]);
+    }
+
+    /**
+     * Caches users and retrieves them.
+     *
+     * @return Collection<int, User>
+     */
+    private function getUsers(): Collection
+    {
+        return Cache::remember('listableUsers', 3600, function () {
+            return User::get(['id', 'name']);
+        });
     }
 }
