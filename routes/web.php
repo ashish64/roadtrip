@@ -17,10 +17,29 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [TripController::class, 'index'])->name('dashboard');
-    Route::resource('trips', TripController::class)->except(['destroy']);
-    Route::resource('trips.suggestions', SuggestionController::class)->only(['store']);
-    Route::get('/suggestions/{suggestion}/vote', [SuggestionController::class, 'vote'])->name('suggestions.vote');
-    Route::get('/suggestions/{suggestion}/status', [SuggestionController::class, 'status'])->name('suggestions.status');
+
+    // Ungated
+    Route::get('trips/create', [TripController::class, 'create'])->name('trips.create');
+    Route::post('trips', [TripController::class, 'store'])->name('trips.store');
+
+    //  They can view trip assigned to them
+    Route::middleware('can:view,trip')->group(function () {
+        Route::get('trips/{trip}/', [TripController::class, 'show'])->name('trips.show');
+        Route::resource('trips.suggestions', SuggestionController::class)->only(['store']);
+
+    });
+    //
+    Route::middleware('can:view,suggestion.trip')->group(function () {
+        Route::get('/suggestions/{suggestion}/status', [SuggestionController::class, 'status'])->name('suggestions.status');
+        Route::get('/suggestions/{suggestion}/vote', [SuggestionController::class, 'vote'])->name('suggestions.vote');
+    });
+
+    //  They can update the trips
+    Route::middleware('can:update,trip')->group(function () {
+        Route::get('trips/{trip}/edit', [TripController::class, 'edit'])->name('trips.edit');
+        Route::put('trips/{trip}', [TripController::class, 'update'])->name('trips.update');
+    });
+
 });
 
 require __DIR__.'/auth.php';

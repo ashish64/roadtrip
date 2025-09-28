@@ -13,7 +13,6 @@ use App\Repositories\TripRepository;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
 
 class TripController extends Controller
@@ -64,7 +63,6 @@ class TripController extends Controller
      */
     public function show(Trip $trip): View
     {
-        Gate::authorize('view', $trip);
 
         $data = $this->trip->findWithSuggestions($trip);
 
@@ -77,7 +75,6 @@ class TripController extends Controller
     public function edit(Trip $trip): View
     {
         //
-        Gate::authorize('update', $trip);
         $data = $this->trip->find($trip, 'users:id,name');
         $users = $this->getUsers();
 
@@ -89,8 +86,6 @@ class TripController extends Controller
      */
     public function update(TripRequest $tripRequest, Trip $trip): RedirectResponse
     {
-        //
-        Gate::authorize('update', $trip);
         $this->trip->updateTrip($trip, $tripRequest->all());
 
         return redirect()->route('trips.show', ['trip' => $trip]);
