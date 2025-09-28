@@ -8,7 +8,7 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 my-4">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <form method="POST" action="{{ route('trips.update', $trip) }}">
+                <form method="POST" action="{{ route('trips.update', $data) }}">
                     @csrf
                     @method('PUT')
                     <div class="p-6 text-gray-900 flex flex-col">
@@ -17,7 +17,7 @@
 
                             <x-text-input id="title" class="block mt-1 w-full"
                                           type="text"
-                                          value="{{ old('title', $trip->title) }}"
+                                          value="{{ old('title', $data->title) }}"
                                           name="title"
                             />
 
@@ -28,7 +28,7 @@
 
                             <x-textarea-input id="description" class="block mt-1 w-full p-1"
                                               name="description">
-                                {{ old('description', $trip->description) }}
+                                {{ old('description', $data->description) }}
                             </x-textarea-input>
 
                             <x-input-error :messages="$errors->get('description')" class="mt-2" />
@@ -41,7 +41,7 @@
                                           value="active"
                                           type="radio"
                                           name="status"
-                                          @checked(old('status', $trip->status))
+                                          @checked(old('status', $data->status))
                             >
                             <x-input-label for="description" value="Completed" />
                             <input id="completed" class="block mt-1"
@@ -60,7 +60,7 @@
                                                   name="users[]"
                                                   value="{{ $user->id }}"
                                                   @checked(
-                                                   $trip->users->contains('id',$user->id)
+                                                   $data->users->contains('id',$user->id)
                                                    || (is_array(old('user')) && in_array($user->id, old('user')))
                                                    )
                                     />
