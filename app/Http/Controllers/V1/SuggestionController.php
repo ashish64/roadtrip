@@ -33,7 +33,7 @@ class SuggestionController extends Controller
      *
      * one user can vote only once
      */
-    public function vote(Suggestion $suggestion, Request $request) : RedirectResponse
+    public function vote(Suggestion $suggestion, Request $request): RedirectResponse
     {
 
         $validated = $request->validate([
