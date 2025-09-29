@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
+use App\Enums\VoteType;
 use App\Models\Trip;
 use App\Repositories\Contracts\TripRepositoryContract;
 use Illuminate\Support\Collection;
@@ -29,10 +30,10 @@ class TripRepository implements TripRepositoryContract
             'suggestions' => function ($query) {
                 $query->withCount([
                     'vote as up_votes_count' => function ($q) {
-                        $q->where('type', 'up');
+                        $q->where('type', VoteType::UP);
                     },
                     'vote as down_votes_count' => function ($q) {
-                        $q->where('type', 'down');
+                        $q->where('type', VoteType::DOWN);
                     },
                 ]);
             },
