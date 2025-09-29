@@ -10,8 +10,14 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900 flex flex-col">
                         <div class="mt-4 flex justify-between">
-                           <h3 class="font-semibold text-xl text-gray-800 leading-tight">
-                                {{ $data->title }}
+                           <h3 class="font-semibold text-xl text-gray-800 leading-tight flex gap-x-2 items-center">
+                               @if($data->status === "completed")
+                               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                   <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
+                               </svg>
+                               @endif
+                               {{ $data->title }}
+                               @if($data->status === "completed") - LOCKED @endif
                            </h3>
                             @can('update', $data)
                             <a href="{{ route('trips.edit', $data) }}"
@@ -42,7 +48,7 @@
                                 @endforeach
                             </ul>
                         </div>
-
+                        @if($data->status === "active")
                         <div class="mt-4">
                             <h3 class="font-semibold text-xl text-gray-800 leading-tight">
                                 Submit your idea here
@@ -64,6 +70,7 @@
                                 </div>
                             </form>
                         </div>
+                        @endif
 
                         <div class="mt-4">
                             <h3 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -82,7 +89,7 @@
                                  >
                                     <div class="flex gap-x-2">
                                         <a
-                                            @if(is_null($suggestion->status))
+                                            @if(is_null($suggestion->status) and $data->status === "active")
                                             href="{{ route('suggestions.vote', $suggestion) }}?type=up"
                                             @endif
                                         >
@@ -93,7 +100,7 @@
                                         </a>
                                         <span> {{ $suggestion->up_votes_count }}</span>
                                         <a
-                                            @if(is_null($suggestion->status))
+                                            @if(is_null($suggestion->status) and $data->status === "active")
                                                 href="{{ route('suggestions.vote', $suggestion) }}?type=down"
                                             @endif
                                         >

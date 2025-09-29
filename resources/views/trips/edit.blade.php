@@ -41,14 +41,14 @@
                                           value="active"
                                           type="radio"
                                           name="status"
-                                          @checked(old('status', $data->status))
+                                {{ $data->status == 'active' ? 'checked' : ''}}
                             >
                             <x-input-label for="description" value="Completed" />
                             <input id="completed" class="block mt-1"
                                    value="completed"
                                    type="radio"
                                    name="status"
-                                {{ old('status') == 'completed' ? 'checked' : ''}}
+                                {{ $data->status == 'completed' ? 'checked' : ''}}
                             >
                         </div>
                         <div class="mt-4 grid grid-cols-4">

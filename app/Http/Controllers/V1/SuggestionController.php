@@ -35,7 +35,6 @@ class SuggestionController extends Controller
      */
     public function vote(Suggestion $suggestion, Request $request): RedirectResponse
     {
-
         $validated = $request->validate([
             'type' => 'required|in:up,down',
         ]);
