@@ -18,7 +18,7 @@ class Suggestion extends Model
     /**
      * @return BelongsTo<User, $this>
      */
-    public function User(): BelongsTo
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
@@ -26,7 +26,7 @@ class Suggestion extends Model
     /**
      * @return BelongsTo<Trip, $this>
      */
-    public function Trip(): BelongsTo
+    public function trip(): BelongsTo
     {
         return $this->belongsTo(Trip::class);
     }
@@ -34,7 +34,7 @@ class Suggestion extends Model
     /**
      * @return HasMany<Vote, $this>
      */
-    public function Vote(): HasMany
+    public function vote(): HasMany
     {
         return $this->hasMany(Vote::class);
     }

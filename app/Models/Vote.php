@@ -13,7 +13,7 @@ class Vote extends Model
     /**
      * @return BelongsTo<User,$this>
      */
-    public function User(): BelongsTo
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
@@ -21,7 +21,7 @@ class Vote extends Model
     /**
      * @return BelongsTo<Suggestion,$this>
      */
-    public function Suggestion(): BelongsTo
+    public function suggestion(): BelongsTo
     {
         return $this->belongsTo(Suggestion::class);
     }
