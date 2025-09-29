@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\V1;
 
+use App\Enums\SuggestionStatus;
+use App\Enums\VoteType;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SuggestionRequest;
 use App\Models\Suggestion;
 use App\Models\Trip;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rules\Enum;
 
 class SuggestionController extends Controller
 {
@@ -36,7 +39,7 @@ class SuggestionController extends Controller
     public function vote(Suggestion $suggestion, Request $request): RedirectResponse
     {
         $validated = $request->validate([
-            'type' => 'required|in:up,down',
+            'type' => ['required', new Enum(VoteType::class)],
         ]);
 
         $suggestion->vote()->updateOrCreate([
@@ -56,7 +59,7 @@ class SuggestionController extends Controller
     {
 
         $validated = $request->validate([
-            'type' => 'required|in:approved,rejected',
+            'type' => ['required', new Enum(SuggestionStatus::class)],
         ]);
 
         $suggestion->update(['status' => $validated['type']]);

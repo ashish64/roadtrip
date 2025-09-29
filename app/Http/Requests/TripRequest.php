@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\TripStatus;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Enum;
 
 class TripRequest extends FormRequest
 {
@@ -24,7 +26,7 @@ class TripRequest extends FormRequest
         return [
             'title' => 'required',
             'description' => 'required',
-            'status' => 'required',
+            'status' => ['required', new Enum(TripStatus::class)],
         ];
     }
 }
