@@ -51,8 +51,6 @@ class SuggestionController extends Controller
     }
 
     /**
-     * This can and should be moved to its own controller
-     *
      * updates status for a suggestion
      */
     public function status(Suggestion $suggestion, Request $request): RedirectResponse
