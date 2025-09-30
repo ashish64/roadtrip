@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Http\Controllers\V1;
 
 use App\Enums\SuggestionStatus;
-use App\Enums\VoteType;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SuggestionRequest;
 use App\Models\Suggestion;
@@ -29,25 +28,6 @@ class SuggestionController extends Controller
         $trip->suggestions()->create($suggestion);
 
         return redirect()->route('trips.show', ['trip' => $trip]);
-    }
-
-    /**
-     * This can and should be moved to its own controller
-     *
-     * one user can vote only once
-     */
-    public function vote(Suggestion $suggestion, Request $request): RedirectResponse
-    {
-        $validated = $request->validate([
-            'type' => ['required', new Enum(VoteType::class)],
-        ]);
-
-        $suggestion->vote()->updateOrCreate([
-            'user_id' => auth()->id(),
-            'suggestion_id' => $suggestion->id,
-        ], $validated);
-
-        return redirect()->back();
     }
 
     /**
