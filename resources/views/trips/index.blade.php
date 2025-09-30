@@ -17,8 +17,7 @@
                            @class([
                                      "p-2 border-gray-500 border rounded hover:bg-gray-100 my-2" => $trip->status === "active",
                                      "p-2 opacity-50  border-gray-500 border rounded hover:bg-gray-100 my-2" => $trip->status === "completed"
-                                ])
-                           class="p-2 border-gray-500 border rounded hover:bg-gray-100 my-2">{{ $trip->title }}
+                                ])>{{ $trip->title }}
                             @if( $trip->status === "completed") - COMPLETED @endif
                         </a>
                         @endforeach
@@ -34,7 +33,13 @@
 
                     <div class="mt-4 flex flex-col">
                         @foreach($trips['invited'] as $trip)
-                            <a href="{{ route('trips.show', $trip) }}" class="p-2 border-gray-500 border rounded hover:bg-gray-100 my-2">{{ $trip->title }}</a>
+                            <a href="{{ route('trips.show', $trip) }}"
+                                @class([
+                                          "p-2 border-gray-500 border rounded hover:bg-gray-100 my-2" => $trip->status === "active",
+                                          "p-2 opacity-50  border-gray-500 border rounded hover:bg-gray-100 my-2" => $trip->status === "completed"
+                                     ])>{{ $trip->title }}
+                                @if( $trip->status === "completed") - COMPLETED @endif
+                            </a>
                         @endforeach
                     </div>
                 </div>
