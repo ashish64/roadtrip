@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\V1\SuggestionController;
 use App\Http\Controllers\V1\TripController;
+use App\Http\Controllers\VoteController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -31,7 +32,7 @@ Route::middleware(['auth'])->group(function () {
     //
     Route::middleware('can:view,suggestion.trip')->group(function () {
         Route::get('/suggestions/{suggestion}/status', [SuggestionController::class, 'status'])->name('suggestions.status');
-        Route::get('/suggestions/{suggestion}/vote', [SuggestionController::class, 'vote'])->name('suggestions.vote');
+        Route::get('/suggestions/{suggestion}/vote', [VoteController::class, 'vote'])->name('suggestions.vote');
     });
 
     //  They can update the trips

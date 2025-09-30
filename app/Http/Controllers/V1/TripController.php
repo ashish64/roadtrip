@@ -9,7 +9,6 @@ use App\Http\Requests\TripRequest;
 use App\Models\Trip;
 use App\Models\User;
 use App\Repositories\Contracts\TripRepositoryContract;
-use App\Repositories\TripRepository;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Cache;
@@ -17,9 +16,6 @@ use Illuminate\View\View;
 
 class TripController extends Controller
 {
-    /**
-     * @param  TripRepository  $trip
-     */
     public function __construct(
         protected TripRepositoryContract $trip
     ) {}
@@ -93,6 +89,7 @@ class TripController extends Controller
 
     /**
      * Caches users and retrieves them.
+     * this can be moved to a CacheService
      *
      * @return Collection<int, User>
      */
