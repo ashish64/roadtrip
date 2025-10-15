@@ -27,12 +27,12 @@ class TripRepository implements TripRepositoryContract
     public function findWithSuggestions(Trip $trip): Trip
     {
         return $trip->load([
-            'suggestions' => function ($query) {
+            'suggestions' => function ($query): void {
                 $query->withCount([
-                    'vote as up_votes_count' => function ($q) {
+                    'vote as up_votes_count' => function ($q): void {
                         $q->where('type', VoteType::UP);
                     },
-                    'vote as down_votes_count' => function ($q) {
+                    'vote as down_votes_count' => function ($q): void {
                         $q->where('type', VoteType::DOWN);
                     },
                 ]);
